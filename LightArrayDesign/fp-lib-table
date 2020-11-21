@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name CustomFootprintsSchematics)(type KiCad)(uri ${KIPRJMOD}/CustomFootprintsSchematics.pretty)(options "")(descr ""))
+  (lib (name Bluepill)(type KiCad)(uri "G:/.shortcut-targets-by-id/1Ye11fP2p68nNpw-xiVmZCMFAXb7Gkabz/#5 Power Mobility SSVEP/Research/Light Arrays/LightArrayDesign/Kicad-STM32-master/Footprints")(options "")(descr ""))
+)
