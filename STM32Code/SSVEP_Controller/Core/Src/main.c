@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,6 +89,14 @@ const osThreadAttr_t GyroCom_attributes = {
   .stack_size = 128 * 4
 };
 
+/* Definitions for SPI_Com */
+osThreadId_t SPI_ComHandle;
+const osThreadAttr_t SPI_Com_attributes = {
+  .name = "SPI_Com",
+  .priority = (osPriority_t) osPriorityLow,
+  .stack_size = 128 * 4
+};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,6 +111,7 @@ void StartLED4Blink(void *argument);
 
 /* USER CODE BEGIN PFP */
 void StartGyroCom(void *argument);
+void StartSPI_Com(void *argument);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -179,6 +188,7 @@ int main(void)
   /* USER CODE BEGIN RTOS_THREADS */
 
   GyroComHandle = osThreadNew(StartGyroCom, NULL, &GyroCom_attributes);
+  SPI_ComHandle = osThreadNew(StartSPI_Com, NULL, &SPI_Com_attributes);
 
   /* USER CODE END RTOS_THREADS */
 
@@ -248,7 +258,8 @@ static void MX_I2C1_Init(void)
 
   /* USER CODE END I2C1_Init 1 */
   hi2c1.Instance = I2C1;
-  hi2c1.Init.ClockSpeed = 100000;
+  // MPU 6050 I2C Clock speed is 400kHz
+	hi2c1.Init.ClockSpeed = 400000;
   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -451,6 +462,25 @@ void StartGyroCom(void *argument)
   /* USER CODE END GyroCom */
 }
 
+/* USER CODE BEGIN Header_StartSPI_Com */
+/**
+* @brief Function implementing the SPI_Com thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSPI_Com */
+void StartSPI_Com(void *argument)
+{
+  /* USER CODE BEGIN StartLED4Blink */
+  /* Infinite loop */
+  for(;;)
+  {
+		//xxx
+  }
+	// Cleanup in case we exit task loop above
+	osThreadTerminate(NULL);
+  /* USER CODE END SPI_Com */
+}
 
 /**
   * @brief  Period elapsed callback in non blocking mode
