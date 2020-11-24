@@ -78,7 +78,16 @@ const osThreadAttr_t LED4Blink_attributes = {
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
+
 /* USER CODE BEGIN PV */
+
+/* Definitions for GyroCom */
+osThreadId_t GyroComHandle;
+const osThreadAttr_t GyroCom_attributes = {
+  .name = "GyroCom",
+  .priority = (osPriority_t) osPriorityLow,
+  .stack_size = 128 * 4
+};
 
 /* USER CODE END PV */
 
