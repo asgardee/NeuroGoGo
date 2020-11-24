@@ -102,7 +102,7 @@ void StartLED3Blink(void *argument);
 void StartLED4Blink(void *argument);
 
 /* USER CODE BEGIN PFP */
-
+void StartGyroCom(void *argument);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -177,7 +177,9 @@ int main(void)
   LED4BlinkHandle = osThreadNew(StartLED4Blink, NULL, &LED4Blink_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
+
+  GyroComHandle = osThreadNew(StartGyroCom, NULL, &GyroCom_attributes);
+
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
