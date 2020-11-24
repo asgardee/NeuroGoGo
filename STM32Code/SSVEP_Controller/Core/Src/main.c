@@ -431,6 +431,27 @@ void StartLED4Blink(void *argument)
   /* USER CODE END StartLED4Blink */
 }
 
+/* USER CODE BEGIN Header_StartGyroCom */
+/**
+* @brief Function implementing the GyroCom thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartGyroCom */
+void StartGyroCom(void *argument)
+{
+  /* USER CODE BEGIN StartLED4Blink */
+  /* Infinite loop */
+  for(;;)
+  {
+		//xxx
+  }
+	// Cleanup in case we exit task loop above
+	osThreadTerminate(NULL);
+  /* USER CODE END GyroCom */
+}
+
+
 /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM2 interrupt took place, inside
