@@ -38,5 +38,3 @@ ssvep_controller\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/port
 ssvep_controller\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
 ssvep_controller\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/portmacro.h
 ssvep_controller\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
-ssvep_controller\main.o: ../Core/Inc/stdio.h
-ssvep_controller\main.o: ../Core/Inc/stdint.h

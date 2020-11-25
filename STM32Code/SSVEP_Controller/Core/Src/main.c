@@ -23,8 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stdio.h"
-#include "stdint.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -79,6 +78,7 @@ const osThreadAttr_t LED4Blink_attributes = {
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
+
 /* USER CODE BEGIN PV */
 
 /* Definitions for GyroCom */
@@ -88,6 +88,7 @@ const osThreadAttr_t GyroCom_attributes = {
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
+
 /* Definitions for SPI_Com */
 osThreadId_t SPI_ComHandle;
 const osThreadAttr_t SPI_Com_attributes = {
@@ -95,17 +96,6 @@ const osThreadAttr_t SPI_Com_attributes = {
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
-// Surface SPI User Made Instructions
-const uint8_t LED1WriteFreq_instr = 0xC0;
-const uint8_t LED2WriteFreq_instr = 0xC1;
-const uint8_t LED3WriteFreq_instr = 0xC2;
-const uint8_t LED4WriteFreq_instr = 0xC3;
-
-const uint8_t Left_instr = 0xC0;
-const uint8_t Right_instr = 0xC1;
-const uint8_t Move3_instr = 0xC2;
-const uint8_t Move4_instr = 0xC3;
-
 
 /* USER CODE END PV */
 
@@ -211,7 +201,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -310,8 +300,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_HARD_INPUT;
-	// Change prescaler to 8 to lower baud rate to 1000 KBits/s
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
