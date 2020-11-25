@@ -136,7 +136,8 @@ void StartSPI_Com(void *argument);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	// Creating  SPI buffer for incoming data
+	uint8_t SPI_buff[8];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
