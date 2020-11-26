@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "FloatIntConv.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -42,7 +43,28 @@
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
 
+// Global variables for light frequencies
+float lightFreqHz1 = 1;
+float lightFreqHz2 = 2; 
+float lightFreqHz3 = 3; 
+float lightFreqHz4 = 4; 
+
 /* USER CODE BEGIN PV */
+
+// Surface SPI User Made Instructions (even parity)
+const uint8_t WriteLEDFreq_instr = 0x55;
+const uint8_t ReadMove_instr = 0x95;
+/*
+const uint8_t LED1WriteFreq_instr = 0x55;
+const uint8_t LED2WriteFreq_instr = 0x56;
+const uint8_t LED3WriteFreq_instr = 0x59;
+const uint8_t LED4WriteFreq_instr = 0x5A;
+
+const uint8_t LeftRead_instr = 0x65;
+const uint8_t RightRead_instr = 0x66;
+const uint8_t Move3Read_instr = 0x69;
+const uint8_t Move4Read_instr = 0x6A;
+*/
 
 /* USER CODE END PV */
 
@@ -66,7 +88,23 @@ static void MX_SPI1_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	// Array that holds status of movement (1 = moving)
+	uint8_t SPIMove[4];
+	
+	// Arrays that hold desired frequencies
+	uint8_t SPI_LED1[4];
+	uint8_t SPI_LED2[4];
+	uint8_t SPI_LED3[4];
+	uint8_t SPI_LED4[4];
+	
+	// Converts the float freq values to the IEEE 754 rep. (4-byte)
+	// Note that SPI_LED is an array hence the lack of address reference, &
+	float2int(&lightFreqHz1, SPI_LED1);
+	float2int(&lightFreqHz2, SPI_LED2);
+	float2int(&lightFreqHz3, SPI_LED3);
+	float2int(&lightFreqHz4, SPI_LED4);
+	
+	
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -88,8 +126,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
+	
   /* USER CODE BEGIN 2 */
-
+	// Deactivate the slave on startup
+	HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);
+	HAL_Delay(10);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -97,7 +138,55 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+			
+		/* Testing if button press works
+		if(HAL_GPIO_ReadPin(ButtonPress_GPIO_Port,ButtonPress_Pin) == GPIO_PIN_RESET)
+		{
+			HAL_GPIO_WritePin(IntLED_GPIO_Port,IntLED_Pin, GPIO_PIN_SET);
+		}
+		else
+		{
+			HAL_GPIO_WritePin(IntLED_GPIO_Port,IntLED_Pin, GPIO_PIN_RESET);
+		}
+		*/
+		
+		// Transmit SPI Instructions on a button press
+		if(HAL_GPIO_ReadPin(ButtonPress_GPIO_Port,ButtonPress_Pin) == GPIO_PIN_RESET)
+		{
+			// Set internal LED high during SPI write/read operations
+			HAL_GPIO_WritePin(IntLED_GPIO_Port,IntLED_Pin, GPIO_PIN_RESET);
+			
+			// Write Data
+			//1. Pull SS Low - Activate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
+			//2. Transmit write data instruction
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&WriteLEDFreq_instr,1,10);
+			//3. Write the data over the SPI bus
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED1,4,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED2,4,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED3,4,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED4,4,10);
+			//4. Pull SS High - Deactivate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);
+			
+			// Read Data
+			//1. Pull SS Low - Activate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
+			//2. Transmit read data instruction
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&ReadMove_instr,1,10);
+			//3. Read the data to the SPIMove array
+			HAL_SPI_Receive(&hspi1,(uint8_t *)&SPIMove,4,10);
+			//4. Pull SS High - Deactivate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);
+			
+			// Clean read data
+			// Convert read data from 4-byte (IEEE 754 rep.) to float
+			
+			
+			// Turn off SPI LED after SPI operations
+			HAL_GPIO_WritePin(IntLED_GPIO_Port,IntLED_Pin, GPIO_PIN_SET);
+		}
+		
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

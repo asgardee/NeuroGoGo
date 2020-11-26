@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+"spi_master_test\startup_stm32f103xb.o"
+"spi_master_test\main.o"
+"spi_master_test\stm32f1xx_it.o"
+"spi_master_test\stm32f1xx_hal_msp.o"
+"spi_master_test\stm32f1xx_hal_timebase_tim.o"
+"spi_master_test\floatintconv.o"
+"spi_master_test\stm32f1xx_hal_gpio_ex.o"
+"spi_master_test\stm32f1xx_hal_spi.o"
+"spi_master_test\stm32f1xx_hal.o"
+"spi_master_test\stm32f1xx_hal_rcc.o"
+"spi_master_test\stm32f1xx_hal_rcc_ex.o"
+"spi_master_test\stm32f1xx_hal_gpio.o"
+"spi_master_test\stm32f1xx_hal_dma.o"
+"spi_master_test\stm32f1xx_hal_cortex.o"
+"spi_master_test\stm32f1xx_hal_pwr.o"
+"spi_master_test\stm32f1xx_hal_flash.o"
+"spi_master_test\stm32f1xx_hal_flash_ex.o"
+"spi_master_test\stm32f1xx_hal_exti.o"
+"spi_master_test\stm32f1xx_hal_tim.o"
+"spi_master_test\stm32f1xx_hal_tim_ex.o"
+"spi_master_test\system_stm32f1xx.o"
+--library_type=microlib --strict --scatter "SPI_Master_Test\SPI_Master_Test.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "SPI_Master_Test.map" -o SPI_Master_Test\SPI_Master_Test.axf
