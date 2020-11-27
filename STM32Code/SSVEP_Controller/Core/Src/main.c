@@ -95,17 +95,16 @@ const osThreadAttr_t SPI_Com_attributes = {
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
-// Surface SPI User Made Instructions
-const uint8_t LED1WriteFreq_instr = 0xC0;
-const uint8_t LED2WriteFreq_instr = 0xC1;
-const uint8_t LED3WriteFreq_instr = 0xC2;
-const uint8_t LED4WriteFreq_instr = 0xC3;
+// Surface SPI User Made Instructions (even parity)
+const uint8_t LED1WriteFreq_instr = 0x55;
+const uint8_t LED2WriteFreq_instr = 0x56;
+const uint8_t LED3WriteFreq_instr = 0x59;
+const uint8_t LED4WriteFreq_instr = 0x5A;
 
-const uint8_t Left_instr = 0xC4;
-const uint8_t Right_instr = 0xC5;
-const uint8_t Move3_instr = 0xC6;
-const uint8_t Move4_instr = 0xC7;
-
+const uint8_t LeftRead_instr = 0x65;
+const uint8_t RightRead_instr = 0x66;
+const uint8_t Move3Read_instr = 0x69;
+const uint8_t Move4Read_instr = 0x6A;
 
 /* USER CODE END PV */
 
@@ -136,7 +135,8 @@ void StartSPI_Com(void *argument);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	// Creating  SPI buffer for incoming data
+	uint8_t SPI_buff[8];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
