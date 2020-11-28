@@ -16,7 +16,7 @@ import tensorflow as tf
 #reshape = (-1, 8, 60) # Change the value 8 to 16 if using 16 electrodes
 #model.predict( np.zeros((32,8,60)).reshape(reshape) ) # Change the value 8 to 16 if using 16 electrodes
 
-ACTION = 'left' # THIS IS THE ACTION YOU'RE THINKING 
+ACTION = 'right' # THIS IS THE ACTION YOU'RE THINKING
 
 FFT_MAX_HZ = 60
 
