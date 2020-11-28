@@ -9,7 +9,7 @@ import time
 
 
 ACTIONS = ["left", "right", "none"]
-reshape = (-1, 16, 60)
+reshape = (-1, 8, 60) #reshape using 8 inputs. Changing 8 to 16 trains a model for 16 electrodes
 
 def create_data(starting_dir="data"):
     training_data = {}
