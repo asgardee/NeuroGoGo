@@ -46,10 +46,10 @@ I2C_HandleTypeDef hi2c1;
 SPI_HandleTypeDef hspi1;
 
 // Global variables for light frequencies
-uint8_t lightFreqHz1 = 10;
-uint8_t lightFreqHz2 = 12; 
-uint8_t lightFreqHz3 = 13; 
-uint8_t lightFreqHz4 = 14; 
+uint8_t lightFreqHz1 = 1;
+uint8_t lightFreqHz2 = 3; 
+uint8_t lightFreqHz3 = 2; 
+uint8_t lightFreqHz4 = 1; 
 /* For floating point
 float lightFreqHz1 = 1;
 float lightFreqHz2 = 2; 
@@ -104,7 +104,7 @@ osThreadId_t SPI_ComHandle;
 const osThreadAttr_t SPI_Com_attributes = {
   .name = "SPI_Com",
   .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 124 * 4
+  .stack_size = 140 * 4
 };
 /* USER CODE BEGIN PV */
 // Surface SPI User Made Instructions (even parity)
@@ -396,7 +396,7 @@ void StartLED1Blink(void *argument)
   {
 		// Toggle LED1
 		HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
-    osDelay((1/lightFreqHz1)*1000*0.5);
+    osDelay((1/lightFreqHz1)*500);
   }
   // Cleanup in case we exit task loop above
 	osThreadTerminate(NULL);
@@ -417,7 +417,7 @@ void StartLED2Blink(void *argument)
   for(;;)
   {
 		HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
-    osDelay((1/lightFreqHz2)*1000*0.5);
+    osDelay((1/lightFreqHz2)*500);
   }
 	// Cleanup in case we exit task loop above
 	osThreadTerminate(NULL);
@@ -438,7 +438,7 @@ void StartLED3Blink(void *argument)
   for(;;)
   {
 		HAL_GPIO_TogglePin(LED3_GPIO_Port,LED3_Pin);
-		osDelay((1/lightFreqHz3)*1000*0.5);
+		osDelay((1/lightFreqHz3)*500);
   }
 	// Cleanup in case we exit task loop above
 	osThreadTerminate(NULL);
@@ -459,7 +459,7 @@ void StartLED4Blink(void *argument)
   for(;;)
   {
 		HAL_GPIO_TogglePin(LED4_GPIO_Port,LED4_Pin);
-		osDelay((1/lightFreqHz4)*1000*0.5);
+		osDelay((1/lightFreqHz4)*500);
   }
 	// Cleanup in case we exit task loop above
 	osThreadTerminate(NULL);
@@ -497,7 +497,7 @@ void StartSPI_Com(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    // Wait to receive instruction
+        // Wait to receive instruction
 		HAL_SPI_Receive(&hspi1,&instrReceiv,1,HAL_MAX_DELAY);
 		
 		// Execute response depending on instruction sent
@@ -512,7 +512,7 @@ void StartSPI_Com(void *argument)
 				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckYes,1,HAL_MAX_DELAY);
 				// Toggle the left turn pin on for movePulseDelay
 				HAL_GPIO_WritePin(LeftTurn_GPIO_Port,LeftTurn_Pin,GPIO_PIN_SET);
-				osDelay(movePulseDelay);
+				HAL_Delay(movePulseDelay);
 				HAL_GPIO_WritePin(LeftTurn_GPIO_Port,LeftTurn_Pin,GPIO_PIN_RESET);
 				break;
 			case AssertRight_instr:
@@ -524,7 +524,7 @@ void StartSPI_Com(void *argument)
 				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckYes,1,HAL_MAX_DELAY);
 				// Toggle the left turn pin on for movePulseDelay
 				HAL_GPIO_WritePin(RightTurn_GPIO_Port,RightTurn_Pin,GPIO_PIN_SET);
-				osDelay(movePulseDelay);
+				HAL_Delay(movePulseDelay);
 				HAL_GPIO_WritePin(RightTurn_GPIO_Port,RightTurn_Pin,GPIO_PIN_RESET);
 				break;
 			case AssertMove3_instr:
@@ -536,7 +536,7 @@ void StartSPI_Com(void *argument)
 				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckYes,1,HAL_MAX_DELAY);
 				// Toggle the left turn pin on for movePulseDelay
 				HAL_GPIO_WritePin(Move3_GPIO_Port,Move3_Pin,GPIO_PIN_SET);
-				osDelay(movePulseDelay);
+				HAL_Delay(movePulseDelay);
 				HAL_GPIO_WritePin(Move3_GPIO_Port,Move3_Pin,GPIO_PIN_RESET);
 				break;
 			case AssertMove4_instr:
@@ -548,7 +548,7 @@ void StartSPI_Com(void *argument)
 				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckYes,1,HAL_MAX_DELAY);
 				// Toggle the left turn pin on for movePulseDelay
 				HAL_GPIO_WritePin(Move4_GPIO_Port,Move4_Pin,GPIO_PIN_SET);
-				osDelay(movePulseDelay);
+				HAL_Delay(movePulseDelay);
 				HAL_GPIO_WritePin(Move4_GPIO_Port,Move4_Pin,GPIO_PIN_RESET);
 				break;
 			case WriteLEDFreq_instr:

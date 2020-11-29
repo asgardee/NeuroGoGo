@@ -105,6 +105,8 @@ int main(void)
 	// Array that holds status of movement (1 = moving)
 	uint8_t SPIMove[4];
 	
+	uint32_t globalDelay = 50; 
+	
 	// Arrays that hold desired frequencies
 	uint8_t SPI_LED[4];
 	SPI_LED[0] = lightFreqHz1;
@@ -181,14 +183,14 @@ int main(void)
 			//1. Pull SS Low - Activate
 			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
 			//2. Transmit write data instruction
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&WriteLEDFreq_instr,1,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&WriteLEDFreq_instr,1,globalDelay);
 			//3. Write the data over the SPI bus
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED,4,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED,4,globalDelay);
 			/* For floating point numbers
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED1,4,10);
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED2,4,10);
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED3,4,10);
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED4,4,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED1,4,globalDelay);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED2,4,globalDelay);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED3,4,globalDelay);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED4,4,globalDelay);
 			*/
 			//4. Pull SS High - Deactivate
 			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);
@@ -197,9 +199,9 @@ int main(void)
 			//1. Pull SS Low - Activate
 			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
 			//2. Transmit move left assertion
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&AssertLeft_instr,1,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&AssertLeft_instr,1,globalDelay);
 			//3. Read the data to the SPIMove array
-			HAL_SPI_Receive(&hspi1,(uint8_t *)SPIMove,1,10);
+			HAL_SPI_Receive(&hspi1,(uint8_t *)SPIMove,1,globalDelay);
 			//4. Pull SS High - Deactivate
 			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);	
 
@@ -207,9 +209,19 @@ int main(void)
 			//1. Pull SS Low - Activate
 			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
 			//2. Transmit move right assertion
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&AssertRight_instr,1,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&AssertRight_instr,1,globalDelay);
 			//3. Read the data to the SPIMove array
-			HAL_SPI_Receive(&hspi1,(uint8_t *)SPIMove,1,10);
+			HAL_SPI_Receive(&hspi1,(uint8_t *)SPIMove,1,globalDelay);
+			//4. Pull SS High - Deactivate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);	
+			
+			// Read Data (move3)
+			//1. Pull SS Low - Activate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
+			//2. Transmit move right assertion
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&AssertMove3_instr,1,globalDelay);
+			//3. Read the data to the SPIMove array
+			HAL_SPI_Receive(&hspi1,(uint8_t *)SPIMove,1,globalDelay);
 			//4. Pull SS High - Deactivate
 			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);	
 			

@@ -153,7 +153,7 @@ int main(void)
 				the chair moved	*/ 
 				
 				// Transmit that you are initiating the turn
-				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckYes,1,HAL_MAX_DELAY);
+				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckNo,1,HAL_MAX_DELAY);
 				// Toggle the left turn pin on for movePulseDelay
 				HAL_GPIO_WritePin(RightTurn_GPIO_Port,RightTurn_Pin,GPIO_PIN_SET);
 				HAL_Delay(movePulseDelay);
