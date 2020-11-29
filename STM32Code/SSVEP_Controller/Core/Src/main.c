@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "stdint.h"
+#include "FloatIntConv.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,6 +51,13 @@ double lightFreqHz1 = 10;
 double lightFreqHz2 = 1; 
 double lightFreqHz3 = 1; 
 double lightFreqHz4 = 1; 
+
+// Initialize buffer variables to store SPI received data
+uint8_t instrReceiv;
+uint8_t LEDinfo[4];
+
+// Global delay variable for pulse length of move command [ms]
+uint32_t movePulseDelay = 5;
 
 /* Definitions for LED1Blink */
 osThreadId_t LED1BlinkHandle;
@@ -95,16 +103,18 @@ const osThreadAttr_t SPI_Com_attributes = {
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
-// Surface SPI User Made Instructions (even parity)
-const uint8_t LED1WriteFreq_instr = 0x55;
-const uint8_t LED2WriteFreq_instr = 0x56;
-const uint8_t LED3WriteFreq_instr = 0x59;
-const uint8_t LED4WriteFreq_instr = 0x5A;
 
-const uint8_t LeftRead_instr = 0x65;
-const uint8_t RightRead_instr = 0x66;
-const uint8_t Move3Read_instr = 0x69;
-const uint8_t Move4Read_instr = 0x6A;
+// Surface SPI User Made Instructions (even parity)
+//1. Write the LED frequencies 
+const uint8_t WriteLEDFreq_instr = 0x55;
+//2. Assert a movement command, read if movement was successfull
+const uint8_t AssertLeft_instr = 0x65;
+const uint8_t AssertRight_instr = 0x66;
+const uint8_t AssertMove3_instr = 0x69;
+const uint8_t AssertMove4_instr = 0x6A;
+//3. Commands send by MCU to indicate if movement was sent to wheelchair
+const uint8_t AckYes = 0x95;
+const uint8_t AckNo = 0x96;
 
 /* USER CODE END PV */
 
@@ -134,10 +144,8 @@ void StartSPI_Com(void *argument);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-	// Creating  SPI buffer for incoming data
-	uint8_t SPI_buff[8];
-  /* USER CODE END 1 */
+  /* USER CODE BEGIN 1 */\
+	  /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -467,6 +475,8 @@ void StartGyroCom(void *argument)
   for(;;)
   {
 		//xxx
+		//HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&ptx, (uint8_t*)&prx, 1, 10);        
+		//output = input;
   }
 	// Cleanup in case we exit task loop above
 	osThreadTerminate(NULL);
@@ -483,10 +493,74 @@ void StartGyroCom(void *argument)
 void StartSPI_Com(void *argument)
 {
   /* USER CODE BEGIN StartLED4Blink */
+		
   /* Infinite loop */
   for(;;)
   {
-		//xxx
+		// Wait to receive instruction
+		HAL_SPI_Receive(&hspi1,&instrReceiv,1,HAL_MAX_DELAY);
+		
+		// Execute response depending on instruction sent
+		switch(instrReceiv)
+		{
+				case AssertLeft_instr:
+				/* In future check to see if moving through Gyro, only move
+				if chair is stationary, send ackYes or ackNo depending on whether
+				the chair moved	*/ 
+				
+				// Transmit that you are initiating the turn
+				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckYes,1,HAL_MAX_DELAY);
+				// Toggle the left turn pin on for movePulseDelay
+				HAL_GPIO_WritePin(LeftTurn_GPIO_Port,LeftTurn_Pin,GPIO_PIN_SET);
+				osDelay(movePulseDelay);
+				HAL_GPIO_WritePin(LeftTurn_GPIO_Port,LeftTurn_Pin,GPIO_PIN_RESET);
+				break;
+			case AssertRight_instr:
+				/* In future check to see if moving through Gyro, only move
+				if chair is stationary, send ackYes or ackNo depending on whether
+				the chair moved	*/ 
+				
+				// Transmit that you are initiating the turn
+				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckYes,1,HAL_MAX_DELAY);
+				// Toggle the left turn pin on for movePulseDelay
+				HAL_GPIO_WritePin(RightTurn_GPIO_Port,RightTurn_Pin,GPIO_PIN_SET);
+				osDelay(movePulseDelay);
+				HAL_GPIO_WritePin(RightTurn_GPIO_Port,RightTurn_Pin,GPIO_PIN_RESET);
+				break;
+			case AssertMove3_instr:
+				/* In future check to see if moving through Gyro, only move
+				if chair is stationary, send ackYes or ackNo depending on whether
+				the chair moved	*/ 
+				
+				// Transmit that you are initiating the movement
+				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckYes,1,HAL_MAX_DELAY);
+				// Toggle the left turn pin on for movePulseDelay
+				HAL_GPIO_WritePin(Move3_GPIO_Port,Move3_Pin,GPIO_PIN_SET);
+				osDelay(movePulseDelay);
+				HAL_GPIO_WritePin(Move3_GPIO_Port,Move3_Pin,GPIO_PIN_RESET);
+				break;
+			case AssertMove4_instr:
+				/* In future check to see if moving through Gyro, only move
+				if chair is stationary, send ackYes or ackNo depending on whether
+				the chair moved	*/ 
+				
+				// Transmit that you are initiating the movement
+				HAL_SPI_Transmit(&hspi1,(uint8_t *)&AckYes,1,HAL_MAX_DELAY);
+				// Toggle the left turn pin on for movePulseDelay
+				HAL_GPIO_WritePin(Move4_GPIO_Port,Move4_Pin,GPIO_PIN_SET);
+				osDelay(movePulseDelay);
+				HAL_GPIO_WritePin(Move4_GPIO_Port,Move4_Pin,GPIO_PIN_RESET);
+				break;
+			case WriteLEDFreq_instr:
+				// Read the incoming data and update light frequency values
+				HAL_SPI_Receive(&hspi1,LEDinfo,4,HAL_MAX_DELAY);	
+				lightFreqHz1 = LEDinfo[0];
+				lightFreqHz2 = LEDinfo[1];
+				lightFreqHz3 = LEDinfo[2];
+				lightFreqHz4 = LEDinfo[3];
+				break;
+		}
+		
   }
 	// Cleanup in case we exit task loop above
 	osThreadTerminate(NULL);

@@ -39,3 +39,4 @@ ssvep_controller\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/depr
 ssvep_controller\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/portmacro.h
 ssvep_controller\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
 ssvep_controller\main.o: C:\Keil\ARM\ARMCC\Bin\..\include\stdio.h
+ssvep_controller\main.o: ../Core/Inc/FloatIntConv.h
