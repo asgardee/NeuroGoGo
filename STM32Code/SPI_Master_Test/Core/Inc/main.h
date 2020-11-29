@@ -60,7 +60,7 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define IntLED_Pin GPIO_PIN_13
 #define IntLED_GPIO_Port GPIOC
-#define ButtonPress_Pin GPIO_PIN_3
+#define ButtonPress_Pin GPIO_PIN_2
 #define ButtonPress_GPIO_Port GPIOA
 #define NSS_GPIO_Out_Pin GPIO_PIN_4
 #define NSS_GPIO_Out_GPIO_Port GPIOA

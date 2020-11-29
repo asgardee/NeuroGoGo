@@ -418,6 +418,16 @@
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f1xx_hal_timebase_tim.c</FilePath>
             </File>
+            <File>
+              <FileName>FloatIntConv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\FloatIntConv.c</FilePath>
+            </File>
+            <File>
+              <FileName>FloatIntConv.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\FloatIntConv.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

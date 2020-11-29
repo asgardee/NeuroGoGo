@@ -44,16 +44,30 @@
 SPI_HandleTypeDef hspi1;
 
 // Global variables for light frequencies
+uint8_t lightFreqHz1 = 1;
+uint8_t lightFreqHz2 = 2; 
+uint8_t lightFreqHz3 = 3; 
+uint8_t lightFreqHz4 = 4; 
+/* For floating point
 float lightFreqHz1 = 1;
 float lightFreqHz2 = 2; 
 float lightFreqHz3 = 3; 
 float lightFreqHz4 = 4; 
+*/
 
 /* USER CODE BEGIN PV */
 
 // Surface SPI User Made Instructions (even parity)
+//1. Write the LED frequencies 
 const uint8_t WriteLEDFreq_instr = 0x55;
-const uint8_t ReadMove_instr = 0x95;
+//2. Assert a movement command, read if movement was successfull
+const uint8_t AssertLeft_instr = 0x65;
+const uint8_t AssertRight_instr = 0x66;
+const uint8_t AssertMove3_instr = 0x69;
+const uint8_t AssertMove4_instr = 0x6A;
+//3. Commands send by MCU to indicate if movement was sent to wheelchair
+const uint8_t AckYes = 0x95;
+const uint8_t AckNo = 0x96;
 /*
 const uint8_t LED1WriteFreq_instr = 0x55;
 const uint8_t LED2WriteFreq_instr = 0x56;
@@ -91,19 +105,26 @@ int main(void)
 	// Array that holds status of movement (1 = moving)
 	uint8_t SPIMove[4];
 	
+	uint32_t globalDelay = 50; 
+	
 	// Arrays that hold desired frequencies
+	uint8_t SPI_LED[4];
+	SPI_LED[0] = lightFreqHz1;
+	SPI_LED[1] = lightFreqHz2;
+	SPI_LED[2] = lightFreqHz3;
+	SPI_LED[3] = lightFreqHz4;
+	/* For floating point conversion (if needed)
 	uint8_t SPI_LED1[4];
 	uint8_t SPI_LED2[4];
 	uint8_t SPI_LED3[4];
 	uint8_t SPI_LED4[4];
-	
 	// Converts the float freq values to the IEEE 754 rep. (4-byte)
 	// Note that SPI_LED is an array hence the lack of address reference, &
 	float2int(&lightFreqHz1, SPI_LED1);
 	float2int(&lightFreqHz2, SPI_LED2);
 	float2int(&lightFreqHz3, SPI_LED3);
 	float2int(&lightFreqHz4, SPI_LED4);
-	
+	*/
 	
   /* USER CODE END 1 */
 
@@ -139,7 +160,8 @@ int main(void)
   {
     /* USER CODE END WHILE */
 			
-		/* Testing if button press works
+		/*
+		// Testing if button press works
 		if(HAL_GPIO_ReadPin(ButtonPress_GPIO_Port,ButtonPress_Pin) == GPIO_PIN_RESET)
 		{
 			HAL_GPIO_WritePin(IntLED_GPIO_Port,IntLED_Pin, GPIO_PIN_SET);
@@ -150,39 +172,61 @@ int main(void)
 		}
 		*/
 		
+		
 		// Transmit SPI Instructions on a button press
 		if(HAL_GPIO_ReadPin(ButtonPress_GPIO_Port,ButtonPress_Pin) == GPIO_PIN_RESET)
 		{
 			// Set internal LED high during SPI write/read operations
 			HAL_GPIO_WritePin(IntLED_GPIO_Port,IntLED_Pin, GPIO_PIN_RESET);
-			
+
 			// Write Data
 			//1. Pull SS Low - Activate
 			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
 			//2. Transmit write data instruction
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&WriteLEDFreq_instr,1,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&WriteLEDFreq_instr,1,globalDelay);
 			//3. Write the data over the SPI bus
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED1,4,10);
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED2,4,10);
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED3,4,10);
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED4,4,10);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED,4,globalDelay);
+			/* For floating point numbers
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED1,4,globalDelay);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED2,4,globalDelay);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED3,4,globalDelay);
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&SPI_LED4,4,globalDelay);
+			*/
 			//4. Pull SS High - Deactivate
 			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);
 			
-			// Read Data
+			// Read Data (move left)
 			//1. Pull SS Low - Activate
 			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
-			//2. Transmit read data instruction
-			HAL_SPI_Transmit(&hspi1,(uint8_t *)&ReadMove_instr,1,10);
+			//2. Transmit move left assertion
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&AssertLeft_instr,1,globalDelay);
 			//3. Read the data to the SPIMove array
-			HAL_SPI_Receive(&hspi1,(uint8_t *)&SPIMove,4,10);
+			HAL_SPI_Receive(&hspi1,(uint8_t *)SPIMove,1,globalDelay);
 			//4. Pull SS High - Deactivate
-			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);	
+
+			// Read Data (move right)
+			//1. Pull SS Low - Activate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
+			//2. Transmit move right assertion
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&AssertRight_instr,1,globalDelay);
+			//3. Read the data to the SPIMove array
+			HAL_SPI_Receive(&hspi1,(uint8_t *)SPIMove,1,globalDelay);
+			//4. Pull SS High - Deactivate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);	
 			
-			// Clean read data
-			// Convert read data from 4-byte (IEEE 754 rep.) to float
+			// Read Data (move3)
+			//1. Pull SS Low - Activate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_RESET);
+			//2. Transmit move right assertion
+			HAL_SPI_Transmit(&hspi1,(uint8_t *)&AssertMove3_instr,1,globalDelay);
+			//3. Read the data to the SPIMove array
+			HAL_SPI_Receive(&hspi1,(uint8_t *)SPIMove,1,globalDelay);
+			//4. Pull SS High - Deactivate
+			HAL_GPIO_WritePin(NSS_GPIO_Out_GPIO_Port,NSS_GPIO_Out_Pin,GPIO_PIN_SET);	
 			
-			
+			// Arbitrary delay 
+			HAL_Delay(500);
 			// Turn off SPI LED after SPI operations
 			HAL_GPIO_WritePin(IntLED_GPIO_Port,IntLED_Pin, GPIO_PIN_SET);
 		}

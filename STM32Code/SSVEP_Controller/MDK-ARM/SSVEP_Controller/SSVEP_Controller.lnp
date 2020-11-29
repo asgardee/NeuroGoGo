@@ -5,6 +5,7 @@
 "ssvep_controller\stm32f1xx_it.o"
 "ssvep_controller\stm32f1xx_hal_msp.o"
 "ssvep_controller\stm32f1xx_hal_timebase_tim.o"
+"ssvep_controller\floatintconv.o"
 "ssvep_controller\stm32f1xx_hal_gpio_ex.o"
 "ssvep_controller\stm32f1xx_hal.o"
 "ssvep_controller\stm32f1xx_hal_rcc.o"
