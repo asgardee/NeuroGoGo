@@ -208,8 +208,8 @@ int main(void)
   GyroComHandle = osThreadNew(StartGyroCom, NULL, &GyroCom_attributes);
   SPI_ComHandle = osThreadNew(StartSPI_Com, NULL, &SPI_Com_attributes);
 
-  /* USER CODE END RTOS_THREADS */
-
+  /* USER CODE END RTOS_THREADS */	
+	
   /* Start scheduler */
   osKernelStart(); // No code below this will execute!
 
@@ -474,9 +474,18 @@ void StartGyroCom(void *argument)
   /* Infinite loop */
   for(;;)
   {
-		//xxx
-		//HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&ptx, (uint8_t*)&prx, 1, 10);        
-		//output = input;
+		// Test data to make send out the turn commands
+		
+		// Turn right
+		osDelay(15*1000); // Wait 15 seconds
+		HAL_GPIO_WritePin(RightTurn_GPIO_Port,RightTurn_Pin,GPIO_PIN_SET);
+		osDelay(movePulseDelay);
+		//HAL_GPIO_WritePin(RightTurn_GPIO_Port,RightTurn_Pin,GPIO_PIN_RESET);
+		// Turn left
+		osDelay(15*1000); // Wait 15 seconds
+		HAL_GPIO_WritePin(LeftTurn_GPIO_Port,LeftTurn_Pin,GPIO_PIN_SET);
+		osDelay(movePulseDelay);
+		HAL_GPIO_WritePin(LeftTurn_GPIO_Port,LeftTurn_Pin,GPIO_PIN_RESET);
   }
 	// Cleanup in case we exit task loop above
 	osThreadTerminate(NULL);

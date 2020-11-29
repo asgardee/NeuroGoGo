@@ -66,8 +66,8 @@ void Error_Handler(void);
 #define SPIComp_MISO_GPIO_Port GPIOA
 #define SPIComp_MOSI_Pin GPIO_PIN_7
 #define SPIComp_MOSI_GPIO_Port GPIOA
-#define RightTurn_Pin GPIO_PIN_0
-#define RightTurn_GPIO_Port GPIOB
+#define RightTurn_Pin GPIO_PIN_0 
+#define RightTurn_GPIO_Port GPIOB 
 #define LeftTurn_Pin GPIO_PIN_1
 #define LeftTurn_GPIO_Port GPIOB
 #define LED2_Pin GPIO_PIN_10

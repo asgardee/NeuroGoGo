@@ -107,6 +107,10 @@ int main(void)
 	
 	// Arrays that hold desired frequencies
 	uint8_t SPI_LED[4];
+	SPI_LED[0] = lightFreqHz1;
+	SPI_LED[1] = lightFreqHz2;
+	SPI_LED[2] = lightFreqHz3;
+	SPI_LED[3] = lightFreqHz4;
 	/* For floating point conversion (if needed)
 	uint8_t SPI_LED1[4];
 	uint8_t SPI_LED2[4];

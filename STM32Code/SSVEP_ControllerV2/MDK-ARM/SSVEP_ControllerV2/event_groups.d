@@ -1,0 +1,15 @@
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
+ssvep_controllerv2\event_groups.o: C:\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+ssvep_controllerv2\event_groups.o: C:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+ssvep_controllerv2\event_groups.o: C:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+ssvep_controllerv2\event_groups.o: ../Core/Inc/FreeRTOSConfig.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/portmacro.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+ssvep_controllerv2\event_groups.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h

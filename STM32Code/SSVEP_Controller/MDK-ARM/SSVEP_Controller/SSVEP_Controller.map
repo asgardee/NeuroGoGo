@@ -22,6 +22,13 @@ Section Cross References
     main.o(i.MX_GPIO_Init) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_Init) for HAL_GPIO_Init
     main.o(i.MX_SPI1_Init) refers to stm32f1xx_hal_spi.o(i.HAL_SPI_Init) for HAL_SPI_Init
     main.o(i.MX_SPI1_Init) refers to main.o(.bss) for .bss
+    main.o(i.StartGyroCom) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_TogglePin) for HAL_GPIO_TogglePin
+    main.o(i.StartGyroCom) refers to ddiv.o(.text) for __aeabi_ddiv
+    main.o(i.StartGyroCom) refers to dmul.o(.text) for __aeabi_dmul
+    main.o(i.StartGyroCom) refers to dscalb.o(.text) for __ARM_scalbn
+    main.o(i.StartGyroCom) refers to dfixui.o(.text) for __aeabi_d2uiz
+    main.o(i.StartGyroCom) refers to cmsis_os2.o(i.osDelay) for osDelay
+    main.o(i.StartGyroCom) refers to main.o(.data) for .data
     main.o(i.StartLED1Blink) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_TogglePin) for HAL_GPIO_TogglePin
     main.o(i.StartLED1Blink) refers to ddiv.o(.text) for __aeabi_ddiv
     main.o(i.StartLED1Blink) refers to dmul.o(.text) for __aeabi_dmul
@@ -43,13 +50,6 @@ Section Cross References
     main.o(i.StartLED3Blink) refers to dfixui.o(.text) for __aeabi_d2uiz
     main.o(i.StartLED3Blink) refers to cmsis_os2.o(i.osDelay) for osDelay
     main.o(i.StartLED3Blink) refers to main.o(.data) for .data
-    main.o(i.StartLED4Blink) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_TogglePin) for HAL_GPIO_TogglePin
-    main.o(i.StartLED4Blink) refers to ddiv.o(.text) for __aeabi_ddiv
-    main.o(i.StartLED4Blink) refers to dmul.o(.text) for __aeabi_dmul
-    main.o(i.StartLED4Blink) refers to dscalb.o(.text) for __ARM_scalbn
-    main.o(i.StartLED4Blink) refers to dfixui.o(.text) for __aeabi_d2uiz
-    main.o(i.StartLED4Blink) refers to cmsis_os2.o(i.osDelay) for osDelay
-    main.o(i.StartLED4Blink) refers to main.o(.data) for .data
     main.o(i.StartSPI_Com) refers to stm32f1xx_hal_spi.o(i.HAL_SPI_Receive) for HAL_SPI_Receive
     main.o(i.StartSPI_Com) refers to stm32f1xx_hal_spi.o(i.HAL_SPI_Transmit) for HAL_SPI_Transmit
     main.o(i.StartSPI_Com) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
@@ -2100,10 +2100,10 @@ Image Symbol Table
     i.SPI_WaitFlagStateUntilTimeout          0x08001904   Section        0  stm32f1xx_hal_spi.o(i.SPI_WaitFlagStateUntilTimeout)
     SPI_WaitFlagStateUntilTimeout            0x08001905   Thumb Code   180  stm32f1xx_hal_spi.o(i.SPI_WaitFlagStateUntilTimeout)
     i.StartGyroCom                           0x080019bc   Section        0  main.o(i.StartGyroCom)
-    i.StartLED1Blink                         0x080019c0   Section        0  main.o(i.StartLED1Blink)
-    i.StartLED2Blink                         0x08001a10   Section        0  main.o(i.StartLED2Blink)
-    i.StartLED3Blink                         0x08001a60   Section        0  main.o(i.StartLED3Blink)
-    i.StartLED4Blink                         0x08001ab0   Section        0  main.o(i.StartLED4Blink)
+    i.StartLED1Blink                         0x08001a04   Section        0  main.o(i.StartLED1Blink)
+    i.StartLED2Blink                         0x08001a54   Section        0  main.o(i.StartLED2Blink)
+    i.StartLED3Blink                         0x08001aa4   Section        0  main.o(i.StartLED3Blink)
+    i.StartLED4Blink                         0x08001af4   Section        0  main.o(i.StartLED4Blink)
     i.StartSPI_Com                           0x08001af8   Section        0  main.o(i.StartSPI_Com)
     i.SysTick_Handler                        0x08001c00   Section        0  port.o(i.SysTick_Handler)
     i.SystemClock_Config                     0x08001c2c   Section        0  main.o(i.SystemClock_Config)
@@ -2404,11 +2404,11 @@ Image Symbol Table
     HardFault_Handler                        0x080017c5   Thumb Code     2  stm32f1xx_it.o(i.HardFault_Handler)
     MemManage_Handler                        0x08001885   Thumb Code     2  stm32f1xx_it.o(i.MemManage_Handler)
     NMI_Handler                              0x08001887   Thumb Code     2  stm32f1xx_it.o(i.NMI_Handler)
-    StartGyroCom                             0x080019bd   Thumb Code     2  main.o(i.StartGyroCom)
-    StartLED1Blink                           0x080019c1   Thumb Code    62  main.o(i.StartLED1Blink)
-    StartLED2Blink                           0x08001a11   Thumb Code    62  main.o(i.StartLED2Blink)
-    StartLED3Blink                           0x08001a61   Thumb Code    62  main.o(i.StartLED3Blink)
-    StartLED4Blink                           0x08001ab1   Thumb Code    56  main.o(i.StartLED4Blink)
+    StartGyroCom                             0x080019bd   Thumb Code    56  main.o(i.StartGyroCom)
+    StartLED1Blink                           0x08001a05   Thumb Code    62  main.o(i.StartLED1Blink)
+    StartLED2Blink                           0x08001a55   Thumb Code    62  main.o(i.StartLED2Blink)
+    StartLED3Blink                           0x08001aa5   Thumb Code    62  main.o(i.StartLED3Blink)
+    StartLED4Blink                           0x08001af5   Thumb Code     2  main.o(i.StartLED4Blink)
     StartSPI_Com                             0x08001af9   Thumb Code   246  main.o(i.StartSPI_Com)
     SysTick_Handler                          0x08001c01   Thumb Code    38  port.o(i.SysTick_Handler)
     SystemClock_Config                       0x08001c2d   Thumb Code    66  main.o(i.SystemClock_Config)
@@ -2591,12 +2591,12 @@ Memory Map of the image
     0x08001888   0x08001888   0x0000005c   Code   RO         1929    i.SPI_EndRxTransaction  stm32f1xx_hal_spi.o
     0x080018e4   0x080018e4   0x00000020   Code   RO         1930    i.SPI_EndRxTxTransaction  stm32f1xx_hal_spi.o
     0x08001904   0x08001904   0x000000b8   Code   RO         1935    i.SPI_WaitFlagStateUntilTimeout  stm32f1xx_hal_spi.o
-    0x080019bc   0x080019bc   0x00000002   Code   RO           17    i.StartGyroCom      main.o
-    0x080019be   0x080019be   0x00000002   PAD
-    0x080019c0   0x080019c0   0x00000050   Code   RO           18    i.StartLED1Blink    main.o
-    0x08001a10   0x08001a10   0x00000050   Code   RO           19    i.StartLED2Blink    main.o
-    0x08001a60   0x08001a60   0x00000050   Code   RO           20    i.StartLED3Blink    main.o
-    0x08001ab0   0x08001ab0   0x00000048   Code   RO           21    i.StartLED4Blink    main.o
+    0x080019bc   0x080019bc   0x00000048   Code   RO           17    i.StartGyroCom      main.o
+    0x08001a04   0x08001a04   0x00000050   Code   RO           18    i.StartLED1Blink    main.o
+    0x08001a54   0x08001a54   0x00000050   Code   RO           19    i.StartLED2Blink    main.o
+    0x08001aa4   0x08001aa4   0x00000050   Code   RO           20    i.StartLED3Blink    main.o
+    0x08001af4   0x08001af4   0x00000002   Code   RO           21    i.StartLED4Blink    main.o
+    0x08001af6   0x08001af6   0x00000002   PAD
     0x08001af8   0x08001af8   0x00000108   Code   RO           22    i.StartSPI_Com      main.o
     0x08001c00   0x08001c00   0x0000002c   Code   RO         4754    i.SysTick_Handler   port.o
     0x08001c2c   0x08001c2c   0x00000042   Code   RO           23    i.SystemClock_Config  main.o

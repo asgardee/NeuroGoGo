@@ -3,7 +3,7 @@
 <title>Static Call Graph - [SSVEP_Controller\SSVEP_Controller.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image SSVEP_Controller\SSVEP_Controller.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Nov 29 03:35:20 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Nov 29 04:01:26 2020
 <BR><P>
 <H3>Maximum Stack Usage =        240 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -15,7 +15,7 @@ Mutually Recursive functions
  <LI><a href="#[4]">BusFault_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[4]">BusFault_Handler</a><BR>
  <LI><a href="#[2]">HardFault_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[2]">HardFault_Handler</a><BR>
  <LI><a href="#[3]">MemManage_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[3]">MemManage_Handler</a><BR>
- <LI><a href="#[3c]">StartGyroCom</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[3c]">StartGyroCom</a><BR>
+ <LI><a href="#[3b]">StartLED4Blink</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[3b]">StartLED4Blink</a><BR>
  <LI><a href="#[5]">UsageFault_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[5]">UsageFault_Handler</a><BR>
 </UL>
 <P>
@@ -313,10 +313,10 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 </UL>
-<BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED4Blink
-<LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
+<BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED2Blink
 <LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED1Blink
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGyroCom
 </UL>
 
 <P><STRONG><a name="[49]"></a>__aeabi_ddiv</STRONG> (Thumb, 222 bytes, Stack size 32 bytes, ddiv.o(.text))
@@ -324,19 +324,19 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 </UL>
-<BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED4Blink
-<LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
+<BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED2Blink
 <LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED1Blink
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGyroCom
 </UL>
 
 <P><STRONG><a name="[79]"></a>__ARM_scalbn</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, dscalb.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __ARM_scalbn
 </UL>
-<BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED4Blink
-<LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
+<BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED2Blink
 <LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED1Blink
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGyroCom
 </UL>
 
 <P><STRONG><a name="[ca]"></a>scalbn</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, dscalb.o(.text), UNUSED)
@@ -354,10 +354,10 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED4Blink
-<LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
+<BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED2Blink
 <LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED1Blink
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGyroCom
 </UL>
 
 <P><STRONG><a name="[cb]"></a>__I$use$fp</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, iusefp.o(.text), UNUSED)
@@ -413,10 +413,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[78]"></a>HAL_GPIO_TogglePin</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stm32f1xx_hal_gpio.o(i.HAL_GPIO_TogglePin))
-<BR><BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED4Blink
-<LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
+<BR><BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED2Blink
 <LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED1Blink
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGyroCom
 </UL>
 
 <P><STRONG><a name="[75]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f1xx_hal_gpio.o(i.HAL_GPIO_WritePin))
@@ -655,10 +655,15 @@ Global Symbols
 <P><STRONG><a name="[1]"></a>NMI_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f1xx_it.o(i.NMI_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xb.o(RESET)
 </UL>
-<P><STRONG><a name="[3c]"></a>StartGyroCom</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, main.o(i.StartGyroCom))
-<BR><BR>[Calls]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGyroCom
+<P><STRONG><a name="[3c]"></a>StartGyroCom</STRONG> (Thumb, 56 bytes, Stack size 0 bytes, main.o(i.StartGyroCom))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = StartGyroCom &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
-<BR>[Called By]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGyroCom
+<BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
+<LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
+<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbn
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_TogglePin
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
@@ -698,15 +703,10 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[3b]"></a>StartLED4Blink</STRONG> (Thumb, 56 bytes, Stack size 0 bytes, main.o(i.StartLED4Blink))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = StartLED4Blink &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<P><STRONG><a name="[3b]"></a>StartLED4Blink</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, main.o(i.StartLED4Blink))
+<BR><BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED4Blink
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
-<LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
-<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbn
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_TogglePin
+<BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED4Blink
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
@@ -787,10 +787,10 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartSPI_Com
-<LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED4Blink
 <LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED3Blink
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED2Blink
 <LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartLED1Blink
+<LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGyroCom
 </UL>
 
 <P><STRONG><a name="[7e]"></a>osKernelInitialize</STRONG> (Thumb, 50 bytes, Stack size 0 bytes, cmsis_os2.o(i.osKernelInitialize))
