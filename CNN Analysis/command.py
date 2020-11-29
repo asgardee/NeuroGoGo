@@ -26,6 +26,6 @@ def wheelchair_command(action):
 
 while True:
     LED_leftcommand.value = True
-    time.sleep(0.0415)
+    time.sleep(0.0415)  #(0.0415) for right command
     LED_leftcommand.value = False
-    time.sleep(0.0415)
+    time.sleep(0.0415) #(0.0415) for right command

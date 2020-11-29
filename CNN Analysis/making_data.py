@@ -10,19 +10,19 @@ import random
 import tensorflow as tf
 
 
-#MODEL_NAME = "/Users/Tom_Mac/Desktop/NeuroNexus/NeuroGoGo/CNN Analysis/models/63.23-acc-loss-2.52.model"  # your model path here.
+MODEL_NAME = "/Users/Tom_Mac/Desktop/NeuroNexus/NeuroGoGo/CNN Analysis/new_models/51.0-acc-64x3-batch-norm-7epoch-1606622501-loss-189.69.model"  # your model path here.
 
-#model = tf.keras.models.load_model(MODEL_NAME)
-#reshape = (-1, 8, 60) # Change the value 8 to 16 if using 16 electrodes
-#model.predict( np.zeros((32,8,60)).reshape(reshape) ) # Change the value 8 to 16 if using 16 electrodes
+model = tf.keras.models.load_model(MODEL_NAME)
+reshape = (-1, 8, 8) # Change the value 8 to 16 if using 16 electrodes
+model.predict( np.zeros((250,8,8)).reshape(reshape) ) # Change the value 8 to 16 if using 16 electrodes
 
-ACTION = 'right' # THIS IS THE ACTION YOU'RE THINKING
+ACTION = 'none' # THIS IS THE ACTION YOU'RE THINKING
 
 FFT_MAX_HZ = 60
 
 HM_SECONDS = 10  # this is approximate. Not 100%. do not depend on this.
 TOTAL_ITERS = HM_SECONDS*25  # ~25 iters/sec
-BOX_MOVE = "random"  # random or model
+BOX_MOVE = "model"  # random or model
 
 last_print = time.time()
 fps_counter = deque(maxlen=150)
@@ -58,7 +58,7 @@ channel_datas = []
 
 for i in range(TOTAL_ITERS):  # how many iterations. Eventually this would be a while True
     channel_data = []
-    for i in range(8): #Change to 16 if you have 16 electrodes
+    for j in range(8): #Change to 16 if you have 16 electrodes
         sample, timestamp = inlet.pull_sample()
         channel_data.append(sample[:FFT_MAX_HZ])
 
@@ -76,9 +76,9 @@ for i in range(TOTAL_ITERS):  # how many iterations. Eventually this would be a 
     cv2.imshow('', env)
     cv2.waitKey(1)
 
-    #network_input = np.array(channel_data).reshape(reshape)
-    #out = model.predict(network_input)
-    #print(out[0])
+    network_input = np.array(channel_data).reshape(reshape)
+    out = model.predict(network_input)
+    print(out[0])
 
     if BOX_MOVE == "random":
         move = random.choice([-1,0,1])
