@@ -97,7 +97,7 @@ model.add(MaxPooling1D(pool_size=1))
 
 model.add(Flatten())
 
-model.add(Dense(64))
+model.add(Dense(512))
 
 model.add(Dense(3))
 model.add(Activation('softmax'))
@@ -109,7 +109,7 @@ model.compile(loss='categorical_crossentropy',
 epochs = 3
 batch_size = 32
 for epoch in range(epochs):
-    model.fit(train_X, train_y, batch_size=batch_size, epochs=10, validation_data=(test_X, test_y))
+    model.fit(train_X, train_y, batch_size=batch_size, epochs=30, validation_data=(test_X, test_y))
     score = model.evaluate(test_X, test_y, batch_size=batch_size)
     #print(score)
     MODEL_NAME = f"new_models/{round(score[1]*100,2)}-acc-64x3-batch-norm-{epoch}epoch-{int(time.time())}-loss-{round(score[0],2)}.model"

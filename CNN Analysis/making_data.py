@@ -10,13 +10,13 @@ import random
 import tensorflow as tf
 
 
-MODEL_NAME = "/Users/Tom_Mac/Desktop/NeuroNexus/NeuroGoGo/CNN Analysis/new_models/51.0-acc-64x3-batch-norm-7epoch-1606622501-loss-189.69.model"  # your model path here.
+MODEL_NAME = "/Users/Tom_Mac/Desktop/NeuroNexus/NeuroGoGo/CNN Analysis/new_models/36.27-acc-64x3-batch-norm-0epoch-1606665766-loss-1.07.model"  # your model path here.
 
 model = tf.keras.models.load_model(MODEL_NAME)
 reshape = (-1, 8, 8) # Change the value 8 to 16 if using 16 electrodes
 model.predict( np.zeros((250,8,8)).reshape(reshape) ) # Change the value 8 to 16 if using 16 electrodes
 
-ACTION = 'none' # THIS IS THE ACTION YOU'RE THINKING
+ACTION = 'right' # THIS IS THE ACTION YOU'RE THINKING
 
 FFT_MAX_HZ = 60
 
