@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, InputLayer
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, BatchNormalization
 import os
 import random
@@ -9,7 +9,7 @@ import time
 
 
 ACTIONS = ["left", "right", "none"]
-reshape = (-1, 16, 60)
+reshape = (-1, 8, 8) #reshape using 8 inputs. Changing 8 to 16 trains a model for 16 electrodes
 
 def create_data(starting_dir="data"):
     training_data = {}
@@ -20,9 +20,10 @@ def create_data(starting_dir="data"):
         data_dir = os.path.join(starting_dir,action)
         for item in os.listdir(data_dir):
             #print(action, item)
-            data = np.load(os.path.join(data_dir, item))
-            for item in data:
-                training_data[action].append(item)
+            if item != ".DS_Store": #Used to skip over directory settings on a Mac
+                data = np.load(os.path.join(data_dir, item))
+                for item in data:
+                    training_data[action].append(item)
 
     lengths = [len(training_data[action]) for action in ACTIONS]
     print(lengths)
@@ -74,6 +75,7 @@ print(len(test_X))
 
 
 print(np.array(train_X).shape)
+print(np.array(train_y).shape)
 train_X = np.array(train_X).reshape(reshape)
 test_X = np.array(test_X).reshape(reshape)
 
@@ -82,7 +84,7 @@ test_y = np.array(test_y)
 
 model = Sequential()
 
-model.add(Conv1D(64, (3), input_shape=train_X.shape[1:]))
+model.add(Conv1D(64, (3), input_shape=(train_X.shape[1:])))
 model.add(Activation('relu'))
 
 model.add(Conv1D(64, (2)))
@@ -91,11 +93,11 @@ model.add(MaxPooling1D(pool_size=(2)))
 
 model.add(Conv1D(64, (2)))
 model.add(Activation('relu'))
-model.add(MaxPooling1D(pool_size=(2)))
+model.add(MaxPooling1D(pool_size=1))
 
 model.add(Flatten())
 
-model.add(Dense(512))
+model.add(Dense(64))
 
 model.add(Dense(3))
 model.add(Activation('softmax'))
@@ -104,10 +106,10 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
-epochs = 10
+epochs = 3
 batch_size = 32
 for epoch in range(epochs):
-    model.fit(train_X, train_y, batch_size=batch_size, epochs=1, validation_data=(test_X, test_y))
+    model.fit(train_X, train_y, batch_size=batch_size, epochs=10, validation_data=(test_X, test_y))
     score = model.evaluate(test_X, test_y, batch_size=batch_size)
     #print(score)
     MODEL_NAME = f"new_models/{round(score[1]*100,2)}-acc-64x3-batch-norm-{epoch}epoch-{int(time.time())}-loss-{round(score[0],2)}.model"

@@ -10,13 +10,13 @@ import random
 import tensorflow as tf
 
 
-MODEL_NAME = "/Users/Tom_Mac/Projects/NeuroGoGo/BCI/models/63.23-acc-loss-2.52.model"  # your model path here.
+MODEL_NAME = "/Users/Tom_Mac/Desktop/NeuroNexus/NeuroGoGo/CNN Analysis/new_models/51.0-acc-64x3-batch-norm-7epoch-1606622501-loss-189.69.model"  # your model path here.
 
 model = tf.keras.models.load_model(MODEL_NAME)
-reshape = (-1, 16, 60)
-model.predict( np.zeros((32,16,60)).reshape(reshape) )
+reshape = (-1, 8, 8) # Change the value 8 to 16 if using 16 electrodes
+model.predict( np.zeros((250,8,8)).reshape(reshape) ) # Change the value 8 to 16 if using 16 electrodes
 
-ACTION = 'left' # THIS IS THE ACTION YOU'RE THINKING 
+ACTION = 'none' # THIS IS THE ACTION YOU'RE THINKING
 
 FFT_MAX_HZ = 60
 
@@ -58,7 +58,7 @@ channel_datas = []
 
 for i in range(TOTAL_ITERS):  # how many iterations. Eventually this would be a while True
     channel_data = []
-    for i in range(16): # each of the 16 channels here
+    for j in range(8): #Change to 16 if you have 16 electrodes
         sample, timestamp = inlet.pull_sample()
         channel_data.append(sample[:FFT_MAX_HZ])
 
