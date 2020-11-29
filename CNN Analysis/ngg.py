@@ -3,6 +3,7 @@
 import tkinter as tk
 import pickle
 import os
+import GPIO_helper
 
 # Contains the tkinter and logic for the entire program
 class Application(tk.Tk):
@@ -25,6 +26,9 @@ class Application(tk.Tk):
             self.params["Right"] = 12
             self.params["Forward"] = 15
             self.params["Reverse"] = 18
+
+        # Helper to interface with GPIO
+        self.helper = GPIO_helper.GPIO_helper(self.params["Left"], self.params["Right"], self.params["Forward"], self.params["Reverse"])
 
         # Bind closing sequence
         self.protocol("WM_DELETE_WINDOW", self.closing_seq)
@@ -65,6 +69,9 @@ class Application(tk.Tk):
         pickle.dump(self.params, savefile)
         savefile.close()
 
+        # Closes helper
+        self.helper.quit()
+
         # Closes window
         self.destroy()
 
@@ -87,6 +94,37 @@ class Application(tk.Tk):
         self.after(1000, self.update)
 
 
+    def output_on(self, event, direction):
+        if direction == "Left":
+            self.helper.output_on("Left")
+        elif direction == "Right":
+            self.helper.output_on("Right")
+        elif direction == "Forward":
+            self.helper.output_on("m3")
+        elif direction == "Reverse":
+            self.helper.output_on("m4")
+
+    def output_off(self, event, direction):
+        if direction == "Left":
+            self.helper.output_off("Left")
+        elif direction == "Right":
+            self.helper.output_off("Right")
+        elif direction == "Forward":
+            self.helper.output_off("m3")
+        elif direction == "Reverse":
+            self.helper.output_off("m4")
+
+    def update_freq(self, direction, new_freq):
+        if direction == "Left":
+            self.helper.update_freq("Left", new_freq)
+        elif direction == "Right":
+            self.helper.update_freq("Right", new_freq)
+        elif direction == "Forward":
+            self.helper.update_freq("m3", new_freq)
+        elif direction == "Reverse":
+            self.helper.update_freq("m4", new_freq)
+
+
 # Frame layout for controlling the user frequencies
 # Warning: code below is garbage but I don't know how to make it cleaner
 class MainPage(tk.Frame):
@@ -103,6 +141,7 @@ class MainPage(tk.Frame):
         self.labels = {}
         self.entries = {}
         self.btn_update = {}
+        self.btn_test = {}
 
         column = 0
 
@@ -113,10 +152,14 @@ class MainPage(tk.Frame):
             self.entries[direction] = tk.Entry(self.frames[direction])
             self.entries[direction].bind("<Return>", lambda event, arg_direction=direction: self.update_frequency(event, arg_direction))
             self.btn_update[direction] = tk.Button(self.frames[direction], text="Update " + direction)
-            self.btn_update[direction].bind("<Button-1>", lambda event, arg_direction=direction: self.update_frequency(event, arg_direction))
+            self.btn_update[direction].bind("<ButtonPress>", lambda event, arg_direction=direction: self.update_frequency(event, arg_direction))
+            self.btn_test[direction] = tk.Button(self.frames[direction], text = "Test")
+            self.btn_test[direction].bind("<ButtonPress>", lambda event, arg_direction=direction: self.controller.output_on(event, arg_direction))
+            self.btn_test[direction].bind("<ButtonRelease>", lambda event, arg_direction=direction: self.controller.output_off(event, arg_direction))
             self.labels[direction].pack()
             self.entries[direction].pack()
             self.btn_update[direction].pack()
+            self.btn_test[direction].pack()
             self.frames[direction].grid(row=0, column=column, padx=5, pady=5)
             column += 1
 
@@ -130,11 +173,12 @@ class MainPage(tk.Frame):
 
     def update_frequency(self, event, direction):
         new_value = self.entries[direction].get()
-        if new_value.isnumeric():
+        if new_value.isnumeric() and int(new_value) >= 1:
             self.labels[direction]["text"] = direction + ": " + str(new_value) + " Hz"
             self.controller.set_param(direction, int(new_value))
+            self.controller.update_freq(direction, int(new_value))
 
-    # Update frequency for moving left
+    # Update frequency for moving left TESTING
     def btn_left_action(self, event):
         new_value = self.ent_left.get()
         if new_value.isnumeric():
@@ -144,7 +188,7 @@ class MainPage(tk.Frame):
             print("Value is not valid")
 
 
-    # Update frequency for moving right
+    # Update frequency for moving right TESTING
     def btn_right_action(self, test):
         new_value = self.ent_right.get()
         if new_value.isnumeric():

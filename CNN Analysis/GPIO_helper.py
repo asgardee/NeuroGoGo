@@ -32,7 +32,7 @@ class GPIO_helper:
             output.value = False
 
         # A dynamically updated dictionary for LED frequencies (in Hz)
-        self.frequencies = {self.led_left : 1, self.led_right : 2, self.led_m3 : 3, self.led_m4 : 4}
+        self.frequencies = {self.led_left : left_freq, self.led_right : right_freq, self.led_m3 : m3_freq, self.led_m4 : m4_freq}
 
         # Dictionary for addressing directions with strings
         self.directions = {"Left" : self.mov_left, "Right" : self.mov_right, "m3" : self.mov_m3, "m4" : self.mov_m4}
